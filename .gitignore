@@ -1,0 +1,11 @@
+settings.py
+api_soundcloud.py
+try_beatport.py
+*.log
+.vscode/
+.idea/
+env/
+.DS_Store
+__pycache__/
+*.html
+Sound_scraping/
