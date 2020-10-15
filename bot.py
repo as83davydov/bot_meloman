@@ -4,9 +4,8 @@ import settings
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
-from handlers import greet_user
+from handlers import greet_user, get_audio_genres
 
-from try_sound import get_audio_genres #пока вопрос
 
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO,

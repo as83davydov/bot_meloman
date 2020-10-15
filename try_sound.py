@@ -52,11 +52,12 @@ def get_audio_genres(html):
         # track_names.append(track.text) #смотри выше
         print(str(index + 1) + ':' + track.text)
         print()
-        
+
+ 
 
 if __name__ == "__main__":
         html = get_html("http://soundcloud.com/charts/top")
         if html:
-            # with open("soundcloud_charts_top.html", "w", encoding="utf8") as f:
-            #     f.write(html)
+#             # with open("soundcloud_charts_top.html", "w", encoding="utf8") as f:
+#             #     f.write(html)
             get_audio_genres(html)
