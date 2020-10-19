@@ -2,9 +2,9 @@ import logging
 
 import settings
 
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler
 
-from handlers import greet_user, get_audio_genres
+from handlers import greet_user, get_audio_genres, site_choice_handler #add
 
 
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
@@ -24,8 +24,24 @@ def main():
     mybot = Updater(settings.API_KEY, request_kwargs=PROXY, use_context=True)
 
     dp = mybot.dispatcher
-    dp.add_handler(CommandHandler("start", greet_user))
-    dp.add_handler(CommandHandler("SoundCloud", get_audio_genres))
+
+    meloman = ConversationHandler(
+        entry_points=[
+            CommandHandler('Start', greet_user) #add
+        ],
+        states={
+            "site_choice": [MessageHandler(Filters.regex('SoundCloud|BeatPort'), site_choice_handler)],
+            # "genre_choice": [MessageHandler(Filters.regex, genre_choice_handler)], #add
+            # "track_choice": [MessageHandler(Filters.text, get_sc_tracks)] #add
+            # "track_search": [MessageHandler(Filters.text, file_search_handler)]
+        },
+        fallbacks=[]
+    )
+
+    dp.add_handler(meloman)
+    
+
+    # dp.add_handler(CommandHandler("Start", greet_user))
     # dp.add_handler(CommandHandler("BeatPort", get_genres))
 
     logging.info('Bot have started')
