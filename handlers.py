@@ -9,7 +9,7 @@ def greet_user(update, context):
     text = 'Привет, пользователь! Выбирай сайт'
     # print(text)
     update.message.reply_text(text, reply_markup=main_keybord())
-    return "site_choise"
+    return "site_choice"
 
 
 def get_html(url):
@@ -35,7 +35,7 @@ def get_audio_genres(site_name):
             genre_title = cur_genre.text
             genre_links.append(cur_genre.get('href'))
             # print(genre_links)
-            uot = str(index) + ':' + genre_title
+            uot = str(index) + ': ' + genre_title
             # update.message.reply_text(uot)
             all_genres += '\n'+ uot           
         return all_genres
@@ -78,7 +78,7 @@ def get_audio_genres(site_name):
 
 
 def site_choice_handler(update, context):
-    choice = context.args
+    choice = update.message.text
     
     if choice == 'SoundCloud' or 'BeatPort':
         get_genres = get_audio_genres(choice)
@@ -90,7 +90,14 @@ def site_choice_handler(update, context):
     #     return 'track_search'
     else:
         pass
-    
+
+def genres_handler(update, context):
+    selected_site = update.message.text
+    # print(selected_site)
+    genres = get_audio_genres(selected_site)
+    update.message.reply_text(genres)
+    update.message.reply_text('Введите номер жанра')
+    return 'track_choice'
 
 def meloman_dontknow(update, context):
     update.message.reply_text('Я вас не понимаю')

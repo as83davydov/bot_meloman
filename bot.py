@@ -4,7 +4,7 @@ import settings
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler
 
-from handlers import greet_user, get_audio_genres, site_choice_handler, meloman_dontknow #add
+from handlers import greet_user, genres_handler, get_audio_genres, site_choice_handler, meloman_dontknow #add
 
 
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
@@ -30,7 +30,8 @@ def main():
             CommandHandler('Start', greet_user) #add
         ],
         states={
-            "site_choice": [MessageHandler(Filters.regex('SoundCloud|BeatPort'), site_choice_handler)],
+            "site_choice": [MessageHandler(Filters.regex('SoundCloud|BeatPort'), genres_handler)],
+            "site_choice": [MessageHandler(Filters.regex('SoundCloud|BeatPort'), site_choice_handler)], #название хендлера иное см строку 100 в handlers
             # "genre_choice": [MessageHandler(Filters.regex, genre_choice_handler)], #add
             # "track_choice": [MessageHandler(Filters.text, get_sc_tracks)] #add
             # "track_search": [MessageHandler(Filters.text, file_search_handler)]
