@@ -4,7 +4,7 @@ import settings
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler
 
-from handlers import greet_user, get_audio_genres, site_choice_handler #add
+from handlers import greet_user, get_audio_genres, site_choice_handler, meloman_dontknow #add
 
 
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
@@ -35,7 +35,9 @@ def main():
             # "track_choice": [MessageHandler(Filters.text, get_sc_tracks)] #add
             # "track_search": [MessageHandler(Filters.text, file_search_handler)]
         },
-        fallbacks=[]
+        fallbacks=[
+            MessageHandler(Filters.text | Filters.photo | Filters.video | Filters.document | Filters.location, meloman_dontknow)
+        ]
     )
 
     dp.add_handler(meloman)

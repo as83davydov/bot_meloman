@@ -92,6 +92,9 @@ def site_choice_handler(update, context):
         pass
     
 
+def meloman_dontknow(update, context):
+    update.message.reply_text('Я вас не понимаю')
+
 # html = get_html("http://soundcloud.com/charts/top")
 # if html:
 #     get_audio_genres(html) 
