@@ -31,7 +31,7 @@ def main():
         ],
         states={
             "site_choice": [MessageHandler(Filters.regex('SoundCloud|BeatPort'), genres_handler)],
-            "site_choice": [MessageHandler(Filters.regex('SoundCloud|BeatPort'), site_choice_handler)], #название хендлера иное см строку 100 в handlers
+            # "site_choice": [MessageHandler(Filters.regex('SoundCloud|BeatPort'), site_choice_handler)], #название хендлера иное см строку 100 в handlers
             # "genre_choice": [MessageHandler(Filters.regex, genre_choice_handler)], #add
             # "track_choice": [MessageHandler(Filters.text, get_sc_tracks)] #add
             # "track_search": [MessageHandler(Filters.text, file_search_handler)]

@@ -1,10 +1,9 @@
 from utils import main_keybord
 
-    #soundcloud
 import requests
 from bs4 import BeautifulSoup
     
-#ф-я старта Conversation #add
+#ф-я старта Conversation
 def greet_user(update, context):
     text = 'Привет, пользователь! Выбирай сайт'
     # print(text)
@@ -22,23 +21,22 @@ def get_html(url):
         return False
 
 
-    # получаем список жанров и композиций
+    # функция парсинга жанров сайтов soundcloud и betaport 
 def get_audio_genres(site_name):
     if site_name == 'SoundCloud':
         url_soundcloud = get_html("http://soundcloud.com/charts/top")
         soup = BeautifulSoup(url_soundcloud, 'html.parser')
         genres = soup.select("a[href*=genre]")
-        genre_links = []
+        genre_sc_links = []
         # print(genres)
-        all_genres = ''
-        for index, cur_genre in enumerate(genres[4:], 1):
-            genre_title = cur_genre.text
-            genre_links.append(cur_genre.get('href'))
-            # print(genre_links)
-            uot = str(index) + ': ' + genre_title
+        all_sc_genres = ''
+        for index, cur_sc_genre in enumerate(genres[4:], 1):
+            genre_sc_title = cur_sc_genre.text
+            genre_sc_links.append(cur_sc_genre.get('href'))
+            uot = str(index) + ': ' + genre_sc_title
             # update.message.reply_text(uot)
-            all_genres += '\n'+ uot           
-        return all_genres
+            all_sc_genres += '\n'+ uot           
+        return all_sc_genres
         
         #ненужно начало
         # update.message.reply_text('Введите номер жанра')
@@ -53,7 +51,6 @@ def get_audio_genres(site_name):
         # else:
         #     choice = (int(choice) - 1)
         #ненужно конец
-
         
         # url = "http://soundcloud.com" + genre_links[choice]
         # request = requests.get(url)
@@ -71,13 +68,35 @@ def get_audio_genres(site_name):
         #     uottt = str(index + 1) + ':' + track.text
         # #     all_genres += '\n'+ uottt            
         # # return all_genres
+
     elif site_name == 'BeatPort':
-        pass
+        url_beatport = get_html("http://beatport.com")
+        soup = BeautifulSoup(url_beatport, 'html.parser')
+        all_bp_genres = soup.findAll(class_="genre-drop-list__genre")
+        genre_bp_links = []
+        bp_genres = ''
+        for index, cur_bp_genre in enumerate(all_bp_genres, 1):
+            genre_bp_title = cur_bp_genre.text
+            genre_bp_links.append(cur_bp_genre.get('href'))                     
+            out_bp = str(index) + ': ' + genre_bp_title
+            print(out_bp)
+            bp_genres += '\n'+ out_bp
+        return bp_genres        
     else:
         return "Вы ввели неверно наименование сайта"
 
+    # хендлер вывода жанров
+def genres_handler(update, context):
+    selected_site = update.message.text
+    # print(selected_site)
+    genres = get_audio_genres(selected_site)
+    # print(genres)
+    update.message.reply_text(genres)
+    update.message.reply_text('Введите номер жанра')
+    return 'track_choice'
 
-def site_choice_handler(update, context):
+    # хендлер должен идти следующим после genres_handler
+def site_choice_handler(update, context): 
     choice = update.message.text
     
     if choice == 'SoundCloud' or 'BeatPort':
@@ -91,17 +110,5 @@ def site_choice_handler(update, context):
     else:
         pass
 
-def genres_handler(update, context):
-    selected_site = update.message.text
-    # print(selected_site)
-    genres = get_audio_genres(selected_site)
-    update.message.reply_text(genres)
-    update.message.reply_text('Введите номер жанра')
-    return 'track_choice'
-
 def meloman_dontknow(update, context):
     update.message.reply_text('Я вас не понимаю')
-
-# html = get_html("http://soundcloud.com/charts/top")
-# if html:
-#     get_audio_genres(html) 
