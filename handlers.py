@@ -89,13 +89,19 @@ def get_audio_genres(site_name):
 def genres_handler(update, context):
     selected_site = update.message.text
     # print(selected_site)
-    genres = get_audio_genres(selected_site)
+    if selected_site == 'SoundCloud' or 'BeatPort':
+        genres = get_audio_genres(selected_site)
     # print(genres)
-    update.message.reply_text(genres)
-    update.message.reply_text('Введите номер жанра')
-    return 'track_choice'
+        update.message.reply_text(genres)
+        update.message.reply_text('Введите номер жанра')
+        return 'track_choice'
+    elif 'Find track':
+        update.message.reply_text("Введи название трека")
+        return 'track_search'
+    else:
+        pass
 
-    # хендлер должен идти следующим после genres_handler
+    # хендлер выбора трека
 def site_choice_handler(update, context): 
     choice = update.message.text
     
