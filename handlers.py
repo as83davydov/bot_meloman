@@ -79,11 +79,16 @@ def get_audio_genres(site_name):
             genre_bp_title = cur_bp_genre.text
             genre_bp_links.append(cur_bp_genre.get('href'))                     
             out_bp = str(index) + ': ' + genre_bp_title
-            print(out_bp)
+            # print(out_bp)
             bp_genres += '\n'+ out_bp
         return bp_genres        
     else:
         return "Вы ввели неверно наименование сайта"
+
+
+        # функция вывода треков по жанру
+def get_list_tracks(number_track):
+    pass
 
     # хендлер вывода жанров
 def genres_handler(update, context):
@@ -91,30 +96,36 @@ def genres_handler(update, context):
     # print(selected_site)
     if selected_site == 'SoundCloud' or 'BeatPort':
         genres = get_audio_genres(selected_site)
-    # print(genres)
         update.message.reply_text(genres)
         update.message.reply_text('Введите номер жанра')
-        return 'track_choice'
+        return 'genre_choice'
     elif 'Find track':
         update.message.reply_text("Введи название трека")
         return 'track_search'
     else:
         pass
 
-    # хендлер выбора трека
-def site_choice_handler(update, context): 
+    # хендлер вывода треков по жанру 
+def number_genre_handler(update, context): 
     choice = update.message.text
-    
-    if choice == 'SoundCloud' or 'BeatPort':
-        get_genres = get_audio_genres(choice)
-        update.message.reply_text('Введите название трека')
-        return 'genre_choice'
+    # print(choice)
+    if not (type(choice) == int):
+        # get_genres = get_audio_genres(choice)
+        update.message.reply_text('Введите номер жанра')
+        return 'genres_choice'
+    # elif
+        # context.user_data['meloman'] = {"number": choice} #???
+    else:
+        list_tracks = get_list_tracks(choice)
+        update.message.reply_text(list_tracks)
+        update.message.reply_text('Введите номер трека')
+        return ""
 
     # elif 'Find track':
     #     update.message.reply_text("Введи название трека")
     #     return 'track_search'
-    else:
-        pass
+    # else:
+    #     pass
 
 def meloman_dontknow(update, context):
     update.message.reply_text('Я вас не понимаю')
