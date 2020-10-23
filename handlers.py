@@ -85,7 +85,7 @@ def genres_handler(update, context):
     else:
         pass
 
-    хендлер вывода треков по жанру 
+   # хендлер вывода треков по жанру 
 def number_genre_handler(update, context): 
     number_choice = update.message.text
     
@@ -97,7 +97,7 @@ def number_genre_handler(update, context):
         list_tracks = get_list_tracks(number_choice)
         update.message.reply_text(list_tracks)
         update.message.reply_text('Введите номер трека')
-        return "next state" # изменить
+        return "number_track_handler" # изменить
 
     # elif 'Find track':
     #     update.message.reply_text("Введи название трека")
