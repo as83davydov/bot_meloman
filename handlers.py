@@ -17,7 +17,6 @@ SITE2URLS = {
 #ф-я старта Conversation
 def greet_user(update, context):
     text = 'Привет, пользователь! Выбирай сайт'
-    # print(text)
     update.message.reply_text(text, reply_markup=main_keybord())
     return "site_choice"
 
@@ -47,7 +46,6 @@ def get_audio_genres(site_name):
             genre_links.append(cur_genre.get('href'))
             # print(genre_links)
             uot = str(index) + ': ' + genre_title
-            # update.message.reply_text(uot)
             all_genres += '\n'+ uot           
         return all_genres, genre_links            
     elif site_name == 'BeatPort':
@@ -84,14 +82,13 @@ def get_list_tracks(url_site, genre_link):
     return all_tracks
 
 
-
 #функция вывода трека по номеру
 def get_track(url_site, track_link):
-    pass
     # audio_track = url_site + track_links
     # request = requests.get(audio_track)
     # soup = BeautifulSoup(request.text, 'html.parser')
     # print (soup)
+    pass
     
 
 
@@ -119,15 +116,10 @@ def genres_handler(update, context):
 def number_genre_handler(update, context): 
     number_choice = int(update.message.text) - 1
     url_site = context.user_data['meloman']['url_site']
-    # print(url_site)
     genres = context.user_data['meloman']['genres']
     genre_links = context.user_data['meloman']['genre_links']
-    # print(genres)
     genres_index = {idx:link for idx, link in enumerate(genre_links)}
-    # print(genres_index)
     selected_genre = genres_index[number_choice]
-    # print(selected_genre)
-    # print(number_choice, type(number_choice), selected_genre)
     if not isinstance(number_choice, int):
         update.message.reply_text('Введите номер жанра')
         return 'genres_choice'
@@ -136,7 +128,6 @@ def number_genre_handler(update, context):
         update.message.reply_text(list_tracks)
         # context.user_data['meloman']['track_links'] = track_links #added
         update.message.reply_text('Введите номер трека')
-        # update.message.reply_text('https://www.beatport.com/track/apricots-original-mix/14242738')
         return "track_choice" # изменить
 
     # elif 'Find track':
@@ -154,13 +145,13 @@ def number_track_handler(update, context):
     # track_links = context.user_data['meloman']['track_links']
     # tracks_index = {idx:link for idx, link in enumerate(track_links)}
     # selected_track = tracks_index[number_choice]
-    # if not isinstance(number_choice, int):
-    #     update.message.reply_text('Введите номер трека')
-    #     return 'track_choice'
-    # else:        
-    #     track_links, list_tracks = get_track(url_site, selected_track)
-    #     update.message.reply_text(list_tracks)            
-    #     return "закончить или идти дальше"
+    #     if not isinstance(number_choice, int):
+    #         update.message.reply_text('Введите номер трека')
+    #         return 'track_choice'
+    #     else:        
+    #         track_links, list_tracks = get_track(url_site, selected_track)
+    #         update.message.reply_text(list_tracks)            
+    #         return "закончить или идти дальше"
     pass
 
 
