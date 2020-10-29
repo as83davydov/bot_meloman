@@ -32,7 +32,7 @@ def get_html(url):
         return False
 
 
-    # функция парсинга жанров сайтов soundcloud и betaport 
+# функция парсинга жанров сайтов soundcloud и betaport 
 def get_audio_genres(site_name):
     if site_name == 'SoundCloud':
         #url_user_site = get_html("http://soundcloud.com") # хардкод, скорее всего нужно перепарсить SoundCloud, чтобы старотовать с начальной страницы
@@ -64,23 +64,38 @@ def get_audio_genres(site_name):
             all_genres += '\n'+ out_bp
         return all_genres, genre_links        
     else:
-        return "Вы ввели неверно наименование сайта"
+        return "Вы ввели неверно наименование сайта" # в данном случае это не нужно, сообщение можно выводить в хендлере
 
 
-        # функция вывода треков по жанру
+# функция вывода треков по жанру
 def get_list_tracks(url_site, genre_link):
     list_tracks = url_site + genre_link
     print(list_tracks)
     request = requests.get(list_tracks)
     soup = BeautifulSoup(request.text, "html.parser")
     tracks = soup.select('h2')[3:]
+    # track_links = [] #added
     all_tracks = ''
     for index, track in enumerate(tracks):
         show_tracks = str(index + 1) + ': ' + track.text
         all_tracks += '\n' + show_tracks
+        # track_links.append(track.a.get('href')) #added
+    # return all_tracks, track_links #added
     return all_tracks
 
-    # хендлер вывода жанров
+
+
+#функция вывода трека по номеру
+def get_track(url_site, track_link):
+    pass
+    # audio_track = url_site + track_links
+    # request = requests.get(audio_track)
+    # soup = BeautifulSoup(request.text, 'html.parser')
+    # print (soup)
+    
+
+
+# хендлер вывода жанров
 def genres_handler(update, context):
     selected_site = update.message.text
     context.user_data['meloman'] = {'url_site': SITE2URLS[selected_site]['main_url']} # проверить
@@ -99,31 +114,30 @@ def genres_handler(update, context):
     else:
         pass
 
-   # хендлер вывода треков по жанру 
+
+# хендлер вывода треков по жанру 
 def number_genre_handler(update, context): 
     number_choice = int(update.message.text) - 1
     url_site = context.user_data['meloman']['url_site']
-    print(url_site)
+    # print(url_site)
     genres = context.user_data['meloman']['genres']
     genre_links = context.user_data['meloman']['genre_links']
     # print(genres)
     genres_index = {idx:link for idx, link in enumerate(genre_links)}
     # print(genres_index)
     selected_genre = genres_index[number_choice]
-    # selected_genre = '/charts/top?genre=' + ss[number_choice]
-    print(selected_genre)
-
+    # print(selected_genre)
     # print(number_choice, type(number_choice), selected_genre)
-
     if not isinstance(number_choice, int):
-        # get_genres = get_audio_genres(number_choice)
         update.message.reply_text('Введите номер жанра')
         return 'genres_choice'
     else:        
         list_tracks = get_list_tracks(url_site, selected_genre)
         update.message.reply_text(list_tracks)
+        # context.user_data['meloman']['track_links'] = track_links #added
         update.message.reply_text('Введите номер трека')
-        return "number_track_handler" # изменить
+        # update.message.reply_text('https://www.beatport.com/track/apricots-original-mix/14242738')
+        return "track_choice" # изменить
 
     # elif 'Find track':
     #     update.message.reply_text("Введи название трека")
@@ -132,7 +146,21 @@ def number_genre_handler(update, context):
     #     pass
 
 
+# хендлер вывода трека по номеру added
 def number_track_handler(update, context):
+    # number_choice = int(update.message.text) - 1
+    # url_site = context.user_data['meloman']['url_site']
+    # tracks = context.user_data['meloman']['tracks']
+    # track_links = context.user_data['meloman']['track_links']
+    # tracks_index = {idx:link for idx, link in enumerate(track_links)}
+    # selected_track = tracks_index[number_choice]
+    # if not isinstance(number_choice, int):
+    #     update.message.reply_text('Введите номер трека')
+    #     return 'track_choice'
+    # else:        
+    #     track_links, list_tracks = get_track(url_site, selected_track)
+    #     update.message.reply_text(list_tracks)            
+    #     return "закончить или идти дальше"
     pass
 
 
