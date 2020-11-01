@@ -4,7 +4,7 @@ import settings
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler
 
-from handlers import greet_user, genres_handler, get_audio_genres, get_list_tracks, get_track, number_genre_handler, number_track_handler, meloman_dontknow #add
+from handlers import greet_user, genres_handler, get_audio_genres, get_list_tracks, get_track, number_genre_handler, number_track_handler, meloman_dontknow, operation_selection_handler
 
 
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
@@ -31,13 +31,13 @@ def main():
         ],
         states={
             "site_choice": [MessageHandler(Filters.regex('SoundCloud|BeatPort'), genres_handler)],
-            "genre_choice": [MessageHandler(Filters.regex('^[0-9]$|^[123456789][0-9]$|^100$'), number_genre_handler)], #changed
-            "track_choice": [MessageHandler(Filters.regex('^[0-9]$|^[123456789][0-9]$|^100$'), number_track_handler)]
-            # "track_choice": [MessageHandler(Filters.text, get_sc_tracks)] #add
-            # "track_search": [MessageHandler(Filters.text, file_search_handler)]
+            "genre_choice": [MessageHandler(Filters.regex('^[0-9]$|^[123456789][0-9]$|^100$'), number_genre_handler)],
+            "track_choice": [MessageHandler(Filters.regex('^[0-9]$|^[123456789][0-9]$|^100$'), number_track_handler)],
+            "operation_selection": [MessageHandler(Filters.regex('К выбору сайтов|К выбору жанров|Выйти из музыки'), operation_selection_handler)] #added
+            # "track_search": [MessageHandler(Filters.text, track_search_handler)]
         },
         fallbacks=[
-            MessageHandler(Filters.text | Filters.photo | Filters.video | Filters.document | Filters.location, meloman_dontknow)
+            MessageHandler(Filters.text | Filters.photo | Filters.video | Filters.document | Filters.location, meloman_dontknow, operation_selection_handler)
         ]
     )
 
@@ -45,8 +45,7 @@ def main():
     
 
     # dp.add_handler(CommandHandler("Start", greet_user))
-    # dp.add_handler(CommandHandler("BeatPort", get_genres))
-
+ 
     logging.info('Bot have started')
     mybot.start_polling()
     mybot.idle()
