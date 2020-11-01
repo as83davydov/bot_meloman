@@ -71,24 +71,27 @@ def get_list_tracks(url_site, genre_link):
     print(list_tracks)
     request = requests.get(list_tracks)
     soup = BeautifulSoup(request.text, "html.parser")
-    tracks = soup.select('h2')[3:]
-    # track_links = [] #added
+    tracks = soup.select('h2')[3:15]
+    track_links = [] #added
     all_tracks = ''
     for index, track in enumerate(tracks):
         show_tracks = str(index + 1) + ': ' + track.text
         all_tracks += '\n' + show_tracks
-        # track_links.append(track.a.get('href')) #added
-    # return all_tracks, track_links #added
-    return all_tracks
+        track_links.append(track.a.get('href')) #added
+        print(track_links)
+    return all_tracks, track_links #added
+    # return all_tracks
 
 
 #функция вывода трека по номеру
 def get_track(url_site, track_link):
-    # audio_track = url_site + track_links
+    audio_track = url_site + track_link
+    print(audio_track)
+    return audio_track
     # request = requests.get(audio_track)
     # soup = BeautifulSoup(request.text, 'html.parser')
     # print (soup)
-    pass
+    # pass
     
 
 
@@ -124,9 +127,9 @@ def number_genre_handler(update, context):
         update.message.reply_text('Введите номер жанра')
         return 'genres_choice'
     else:        
-        list_tracks = get_list_tracks(url_site, selected_genre)
-        update.message.reply_text(list_tracks)
-        # context.user_data['meloman']['track_links'] = track_links #added
+        all_tracks, track_links = get_list_tracks(url_site, selected_genre)
+        update.message.reply_text(all_tracks)
+        context.user_data['meloman']['track_links'] = track_links #added
         update.message.reply_text('Введите номер трека')
         return "track_choice" # изменить
 
@@ -139,12 +142,16 @@ def number_genre_handler(update, context):
 
 # хендлер вывода трека по номеру added
 def number_track_handler(update, context):
-    # number_choice = int(update.message.text) - 1
-    # url_site = context.user_data['meloman']['url_site']
+    number_choice = int(update.message.text) - 1
+    url_site = context.user_data['meloman']['url_site']
     # tracks = context.user_data['meloman']['tracks']
-    # track_links = context.user_data['meloman']['track_links']
-    # tracks_index = {idx:link for idx, link in enumerate(track_links)}
-    # selected_track = tracks_index[number_choice]
+    track_links = context.user_data['meloman']['track_links']
+    tracks_index = {idx:link for idx, link in enumerate(track_links)}
+    selected_track = track_links[number_choice]
+    print(selected_track)
+    track_link = get_track(url_site, selected_track)
+    update.message.reply_text(track_link)            
+    return 'site_choice'
     #     if not isinstance(number_choice, int):
     #         update.message.reply_text('Введите номер трека')
     #         return 'track_choice'
@@ -152,8 +159,9 @@ def number_track_handler(update, context):
     #         track_links, list_tracks = get_track(url_site, selected_track)
     #         update.message.reply_text(list_tracks)            
     #         return "закончить или идти дальше"
-    pass
+    # pass
 
 
 def meloman_dontknow(update, context):
     update.message.reply_text('Я вас не понимаю')
+    return 'genre_choice'
