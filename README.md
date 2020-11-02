@@ -2,7 +2,7 @@
 
 Meloman Bot - это telegram-бот для отслеживания новинок и top музыкальных треков по жанрам на сайтах популярных мировых музыкальных чартов [SoundCloud.com](http://soundcloud.com/charts/top) и [BeatPort.com](http://beatport.com).
 Пользователь вводит или выбирает на всплывающей клавиатуре наименование сайта 'SoundCloud' или 'BeatPort'.
-<img src= "https://github.com/as83davydov/bot_meloman/blob/main/ScreenShots/Screenshot_1.jpg" width = "600" height = "700" >
+<img src= "https://github.com/as83davydov/bot_meloman/blob/main/ScreenShots/Screenshot_1.jpg" width = "300" height = "633" >
 
 Далее в мессенджере выводится список существующих на сайте музыкальных жанров и категорий и пользователю предлагается выбрать один из жанров, путем ввода порядкогового номера.
 Затем пользователь получает список top (по версии сайта) композиций и бот предлагает выбрать номер трека по порядковому номеру для дальнейшего его прослушивания в встроенном браузере telegram или
