@@ -147,16 +147,21 @@ def number_genre_handler(update, context):
 # хендлер вывода трека по номеру
 def number_track_handler(update, context):
     number_choice = int(update.message.text) - 1
-    url_site = context.user_data['meloman']['url_site']
-    # tracks = context.user_data['meloman']['tracks']
-    track_links = context.user_data['meloman']['track_links']
-    tracks_index = {idx:link for idx, link in enumerate(track_links)}
-    selected_track = track_links[number_choice]
-    print(selected_track)
-    track_link = get_track(url_site, selected_track)
-    update.message.reply_text(track_link, reply_markup=quit_meloman_keybord())            
-    return "operation_selection"
-  
+    if number_choice > 0:
+        url_site = context.user_data['meloman']['url_site']
+        # tracks = context.user_data['meloman']['tracks']
+        track_links = context.user_data['meloman']['track_links']
+        tracks_index = {idx:link for idx, link in enumerate(track_links)}
+        selected_track = track_links[number_choice]
+        # print(selected_track)
+        track_link = get_track(url_site, selected_track)
+        update.message.reply_text(track_link)
+        update.message.reply_text("Для выбора трека введите номер из списка выше или введите '0' для возврата в меню")       
+        return "track_choice"
+    else:
+        number_choice == 0
+        update.message.reply_text('Сделайте выбор', reply_markup=quit_meloman_keybord())
+        return "operation_selection"
 
 # хендлер выбора действий
 def operation_selection_handler(update, context):
