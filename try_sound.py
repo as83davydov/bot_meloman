@@ -25,7 +25,7 @@ def get_audio_genres(html):
         # title = cur_genre.findAll('a').text
         genre_title = cur_genre.text
         genre_links.append(cur_genre.get('href'))
-        # print(genre_links)
+        print(genre_links)
         print(str(index) + ':', genre_title)
 
     #выбор жанра и показ top 50 по каждому
