@@ -35,7 +35,6 @@ def get_html(url):
 # функция парсинга жанров сайтов soundcloud и betaport 
 def get_audio_genres(site_name):
     if site_name == 'SoundCloud':
-        #url_user_site = get_html("http://soundcloud.com") # хардкод, скорее всего нужно перепарсить SoundCloud, чтобы старотовать с начальной страницы
         sc_user_site = get_html(SITE2URLS[site_name]['top_url'])        
         soup = BeautifulSoup(sc_user_site, 'html.parser')
         genres = soup.select("a[href*=genre]")
@@ -123,6 +122,7 @@ def genres_handler(update, context):
 def number_genre_handler(update, context): 
     number_choice = int(update.message.text) - 1
     url_site = context.user_data['meloman']['url_site']
+    print(url_site)
     genres = context.user_data['meloman']['genres']
     genre_links = context.user_data['meloman']['genre_links']
     genres_index = {idx:link for idx, link in enumerate(genre_links)}

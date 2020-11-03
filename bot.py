@@ -4,7 +4,7 @@ import settings
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler
 
-from handlers import greet_user, genres_handler, get_audio_genres, get_list_tracks, get_track, number_genre_handler, number_track_handler, meloman_dontknow, operation_selection_handler
+from meloman_handlers import greet_user, greet_meloman, genres_handler, get_audio_genres, get_list_tracks, get_track, number_genre_handler, number_track_handler, meloman_dontknow, operation_selection_handler
 
 
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
@@ -25,15 +25,17 @@ def main():
 
     dp = mybot.dispatcher
 
+    dp.add_handler(CommandHandler("start", greet_user))
+
     meloman = ConversationHandler(
         entry_points=[
-            CommandHandler('Start', greet_user) #add
+            CommandHandler('music', greet_meloman)
         ],
         states={
             "site_choice": [MessageHandler(Filters.regex('SoundCloud|BeatPort'), genres_handler)],
             "genre_choice": [MessageHandler(Filters.regex('^[0-9]$|^[123456789][0-9]$|^100$'), number_genre_handler)],
             "track_choice": [MessageHandler(Filters.regex('^[0-9]$|^[123456789][0-9]$|^100$'), number_track_handler)],
-            "operation_selection": [MessageHandler(Filters.regex('К выбору сайтов|К выбору жанров|Выйти из музыки'), operation_selection_handler)] #added
+            "operation_selection": [MessageHandler(Filters.regex('К выбору сайтов|К выбору жанров|Выйти из музыки'), operation_selection_handler)]
             # "track_search": [MessageHandler(Filters.text, track_search_handler)]
         },
         fallbacks=[
