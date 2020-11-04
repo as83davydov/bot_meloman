@@ -3,7 +3,7 @@ from telegram import ReplyKeyboardMarkup
 def start_keyboard():
 	'''Клавиатура старта бота
 	'''
-	return ReplyKeyboardMarkup([['/music', 'dark side']], one_time_keyboard=True)
+	return ReplyKeyboardMarkup([['music', 'dark side']], one_time_keyboard=True)
 
 
 def main_keybord():

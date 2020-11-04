@@ -65,8 +65,7 @@ def get_list_tracks(url_site, genre_link):
         track_links.append(track.a.get('href'))
         print(track_links)
     return all_tracks, track_links
-    # return all_tracks
-
+    
 
 def get_track(url_site, track_link):
     '''

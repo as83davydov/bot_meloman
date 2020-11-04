@@ -5,7 +5,7 @@ import settings
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler
 
 from meloman_handlers import greet_user, greet_meloman, genres_handler, get_audio_genres, get_list_tracks, get_track, number_genre_handler, number_track_handler, meloman_dontknow, operation_selection_handler
-
+# удалить ф-ии, оставить хендлеры
 
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO,
@@ -29,7 +29,7 @@ def main():
 
     meloman = ConversationHandler(
         entry_points=[
-            CommandHandler('music', greet_meloman)
+            MessageHandler(Filters.regex('music'), greet_meloman)
         ],
         states={
             "site_choice": [MessageHandler(Filters.regex('SoundCloud|BeatPort'), genres_handler)],
