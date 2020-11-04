@@ -22,12 +22,10 @@ def get_audio_genres(site_name):
         soup = BeautifulSoup(sc_user_site, 'html.parser')
         genres = soup.select("a[href*=genre]")
         genre_links = []
-        # print(genres)
         all_genres = ''
         for index, cur_genre in enumerate(genres[4:], 1):
             genre_title = cur_genre.text
             genre_links.append(cur_genre.get('href'))
-            # print(genre_links)
             uot = str(index) + ': ' + genre_title
             all_genres += '\n'+ uot           
         return all_genres, genre_links            
@@ -41,7 +39,6 @@ def get_audio_genres(site_name):
             genre_title = cur_genre.text
             genre_links.append(cur_genre.get('href'))                     
             out_bp = str(index) + ': ' + genre_title
-            # print(out_bp)
             all_genres += '\n'+ out_bp
         return all_genres, genre_links        
     else:
@@ -74,8 +71,3 @@ def get_track(url_site, track_link):
     audio_track = url_site + track_link
     print(audio_track)
     return audio_track
-    # request = requests.get(audio_track)
-    # soup = BeautifulSoup(request.text, 'html.parser')
-    # print (soup)
-    # pass
-    

@@ -4,8 +4,8 @@ import settings
 
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, ConversationHandler
 
-from meloman_handlers import greet_user, greet_meloman, genres_handler, get_audio_genres, get_list_tracks, get_track, number_genre_handler, number_track_handler, meloman_dontknow, operation_selection_handler
-# удалить ф-ии, оставить хендлеры
+from meloman_handlers import greet_user, greet_meloman, genres_handler, get_tracks_genre_handler, number_track_handler, meloman_dontknow, operation_selection_handler
+
 
 logging.basicConfig(format='%(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO,
@@ -33,7 +33,7 @@ def main():
         ],
         states={
             "site_choice": [MessageHandler(Filters.regex('SoundCloud|BeatPort'), genres_handler)],
-            "genre_choice": [MessageHandler(Filters.regex('^[0-9]$|^[123456789][0-9]$|^100$'), number_genre_handler)],
+            "genre_choice": [MessageHandler(Filters.regex('^[0-9]$|^[123456789][0-9]$|^100$'), get_tracks_genre_handler)],
             "track_choice": [MessageHandler(Filters.regex('^[0-9]$|^[123456789][0-9]$|^100$'), number_track_handler)],
             "operation_selection": [MessageHandler(Filters.regex('К выбору сайтов|К выбору жанров|Выйти из музыки'), operation_selection_handler)]
             # "track_search": [MessageHandler(Filters.text, track_search_handler)]
@@ -45,8 +45,6 @@ def main():
 
     dp.add_handler(meloman)
     
-
-    # dp.add_handler(CommandHandler("Start", greet_user))
  
     logging.info('Bot have started')
     mybot.start_polling()
@@ -55,3 +53,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    

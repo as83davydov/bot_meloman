@@ -26,12 +26,10 @@ def genres_handler(update, context):
     '''
     selected_site = update.message.text
     context.user_data['meloman'] = {'url_site': SITE2URLS[selected_site]['main_url']}
-    # print(selected_site)
     if selected_site == 'SoundCloud' or 'BeatPort':
         genres, genre_links = get_audio_genres(selected_site)
         context.user_data['meloman']['genres'] = genres
         context.user_data['meloman']['genre_links'] = genre_links
-    # print(genres)
         update.message.reply_text(genres)
         update.message.reply_text(
             'Введите номер жанра',
@@ -45,15 +43,12 @@ def genres_handler(update, context):
         pass
 
 
-def number_genre_handler(update, context): #rename
+def get_tracks_genre_handler(update, context):
     '''Хендлер вывода треков по жанру 
     '''
     number_choice = int(update.message.text) - 1
     url_site = context.user_data['meloman']['url_site']
-    print(url_site)
-    # genres = context.user_data['meloman']['genres'] #удалить
     genre_links = context.user_data['meloman']['genre_links']
-    # genres_index = {idx:link for idx, link in enumerate(genre_links)}
     selected_genre = genre_links[number_choice]
     if not isinstance(number_choice, int): #не нужно, останется ветка else
         update.message.reply_text('Введите номер жанра')
@@ -78,11 +73,8 @@ def number_track_handler(update, context):
     number_choice = int(update.message.text) - 1
     if number_choice > 0:
         url_site = context.user_data['meloman']['url_site']
-        # tracks = context.user_data['meloman']['tracks']
         track_links = context.user_data['meloman']['track_links']
-        # tracks_index = {idx:link for idx, link in enumerate(track_links)} удалить
         selected_track = track_links[number_choice]
-        # print(selected_track)
         track_link = get_track(url_site, selected_track)
         update.message.reply_text(track_link)
         update.message.reply_text("Введите номер трека из списка выше или введите '0' для возврата в меню")       
@@ -106,7 +98,6 @@ def operation_selection_handler(update, context):
     else:
         selected_choice == 'Выйти из музыки'
         update.message.reply_text('Приходи еще', reply_markup=start_keyboard())
-        # update.message.reply_text(reply_markup=start_keyboard())
         return ConversationHandler.END
     
 
