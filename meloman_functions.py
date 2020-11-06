@@ -59,7 +59,8 @@ def get_list_tracks(url_site, genre_link):
     for index, track in enumerate(tracks):
         show_tracks = str(index + 1) + ': ' + track.text
         all_tracks += '\n' + show_tracks
-        track_links.append(track.a.get('href'))
+        if track.a is not None:
+            track_links.append(track.a.get('href'))
         print(track_links)
     return all_tracks, track_links
     
